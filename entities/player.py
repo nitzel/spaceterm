@@ -7,7 +7,7 @@ class Player:
     self.name = name
     self.coordinates = Coordinates(0, 0, 0)
 
-  def getPosition(self):
+  def getCoordinates(self):
     """Returns the coordinates object with player position"""
     return self.coordinates
 

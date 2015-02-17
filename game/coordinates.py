@@ -6,28 +6,28 @@ class Coordinates:
     self.y = y
     self.z = z
 
-  def get():
-    return (x, y, z)
+  def get(self):
+    return (self.x, self.y, self.z)
 
-  def set(x, y, z):
+  def set(self, x, y, z):
     self.x = x
     self.y = y
     self.z = z
   
-  def getX():
+  def getX(self):
     return x
 
-  def setX(x):
+  def setX(self, x):
     self.x = x
 
-  def getY():
+  def getY(self):
     return y
 
-  def setY(y):
+  def setY(self, y):
     self.y = y
 
-  def getZ():
+  def getZ(self):
     return z
 
-  def setZ(z):
+  def setZ(self, z):
     self.z = z
