@@ -14,12 +14,15 @@ class Renderer:
 
   def updater(self):
     """Updates the buffer with current game status"""
-    if platform.system() == 'Windows':
-      os.system('cls')
-    else:
-      os.system('clear')
+    self.clearScreen()
 
     # TODO Space/Galaxy/Sector rendering
     # TODO Player position
     # TODO Entities position
     self.screenBuffer = '@'
+
+  def clearScreen(self):
+    if platform.system() == 'Windows':
+      os.system('cls')
+    else:
+      os.system('clear')
