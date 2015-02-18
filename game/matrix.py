@@ -13,6 +13,8 @@ class Matrix:
   
   def __initialize(self):
     """Initialize the matrix with empty space"""
+    self.matrix = []
+    
     for y in range(self.h):
       self.matrix.append([])
       for x in range(self.w):
@@ -31,3 +33,10 @@ class Matrix:
       sbuffer = sbuffer + '\n'
 
     return sbuffer
+
+  def updateLevel(self):
+    """Updates the current level in the matrix"""
+    self.__initialize() # Mockup, do actual level updating
+
+  def positionPlayer(self):
+    self.matrix[Player.getCoordinates().getY()][Player.getCoordinates().getX()][Player.getCoordinates().getZ()] = '@'

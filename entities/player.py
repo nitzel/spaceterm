@@ -15,6 +15,42 @@ class Player:
     return Player.coordinates
 
   @staticmethod
-  def moveTo(self, x, y, z):
+  def moveTo(coordinates):
     """Moves the player to new coordinates"""
-    Player.coordinates.set(x, y, z)
+    Player.coordinates = coordinates
+
+  @staticmethod
+  def moveToTop():
+    Player.coordinates.addY(-1)
+
+  @staticmethod
+  def moveToTopRight():
+    Player.coordinates.addY(-1)
+    Player.coordinates.addX(1)
+
+  @staticmethod
+  def moveToRight():
+    Player.coordinates.addX(1)
+
+  @staticmethod
+  def moveToBottomRight():
+    Player.coordinates.addY(1)
+    Player.coordinates.addX(1)
+
+  @staticmethod
+  def moveToBottom():
+    Player.coordinates.addY(1)
+
+  @staticmethod
+  def moveToBottomLeft():
+    Player.coordinates.addY(1)
+    Player.coordinates.addX(-1)
+
+  @staticmethod
+  def moveToLeft():
+    Player.coordinates.addX(-1)
+
+  @staticmethod
+  def moveToTopLeft():
+    Player.coordinates.addY(-1)
+    Player.coordinates.addX(-1)

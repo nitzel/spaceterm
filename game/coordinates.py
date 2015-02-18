@@ -31,3 +31,12 @@ class Coordinates:
 
   def setZ(self, z):
     self.z = z
+
+  def addX(self, x):
+    self.x = self.x + x
+
+  def addY(self, y):
+    self.y = self.y + y
+
+  def addZ(self, z):
+    self.z = self.z + z
