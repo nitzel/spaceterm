@@ -2,15 +2,19 @@ from game.coordinates import Coordinates
 
 class Player:
   """The player object manages the current player"""
-  def __init__(self, name):
-    super(Player, self).__init__()
-    self.name = name
-    self.coordinates = Coordinates(0, 0, 0)
+  name = ''
+  coordinates = Coordinates(0, 0, 0)
 
-  def getCoordinates(self):
+  @staticmethod
+  def setName(name):
+    Player.name = name
+
+  @staticmethod
+  def getCoordinates():
     """Returns the coordinates object with player position"""
-    return self.coordinates
+    return Player.coordinates
 
+  @staticmethod
   def moveTo(self, x, y, z):
     """Moves the player to new coordinates"""
-    self.coordinates.set(x, y, z)
+    Player.coordinates.set(x, y, z)

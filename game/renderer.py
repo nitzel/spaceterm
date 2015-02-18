@@ -1,5 +1,6 @@
 import platform
 import os
+from game.matrix import Matrix
 
 class Renderer:
   """This objects manages the rendering phase of the game"""
@@ -8,8 +9,13 @@ class Renderer:
     super(Renderer, self).__init__()
     self.screenBuffer = ''
   
-  def render(self):
+  def render(self, matrix):
+    # Some type checking
+    if not isinstance(matrix, Matrix):
+      raise TypeError
+
     self.updater()
+    self.screenBuffer = matrix.render()
     print(self.screenBuffer)
 
   def updater(self):

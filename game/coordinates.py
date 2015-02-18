@@ -15,19 +15,19 @@ class Coordinates:
     self.z = z
   
   def getX(self):
-    return x
+    return self.x
 
   def setX(self, x):
     self.x = x
 
   def getY(self):
-    return y
+    return self.y
 
   def setY(self, y):
     self.y = y
 
   def getZ(self):
-    return z
+    return self.z
 
   def setZ(self, z):
     self.z = z
