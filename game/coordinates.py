@@ -1,42 +1,44 @@
 class Coordinates:
-  """Represents the game coordinates"""
-  def __init__(self, x, y, z):
-    super(Coordinates, self).__init__()
-    self.x = x
-    self.y = y
-    self.z = z
 
-  def get(self):
-    return (self.x, self.y, self.z)
+    """Represents the game coordinates"""
 
-  def set(self, x, y, z):
-    self.x = x
-    self.y = y
-    self.z = z
-  
-  def getX(self):
-    return self.x
+    def __init__(self, x, y, z):
+        super(Coordinates, self).__init__()
+        self.x = x
+        self.y = y
+        self.z = z
 
-  def setX(self, x):
-    self.x = x
+    def get(self):
+        return (self.x, self.y, self.z)
 
-  def getY(self):
-    return self.y
+    def set(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
 
-  def setY(self, y):
-    self.y = y
+    def getX(self):
+        return self.x
 
-  def getZ(self):
-    return self.z
+    def setX(self, x):
+        self.x = x
 
-  def setZ(self, z):
-    self.z = z
+    def getY(self):
+        return self.y
 
-  def addX(self, x):
-    self.x = self.x + x
+    def setY(self, y):
+        self.y = y
 
-  def addY(self, y):
-    self.y = self.y + y
+    def getZ(self):
+        return self.z
 
-  def addZ(self, z):
-    self.z = self.z + z
+    def setZ(self, z):
+        self.z = z
+
+    def addX(self, x):
+        self.x = self.x + x
+
+    def addY(self, y):
+        self.y = self.y + y
+
+    def addZ(self, z):
+        self.z = self.z + z
