@@ -1,56 +1,15 @@
 #!/usr/bin/env python3
-from entities.player import Player
-from game.renderer import Renderer
-from game.input import Input
-from game.matrix import Matrix
-from game.coordinates import Coordinates
+from game.game import Game
 from curses import wrapper
 
 def main(screen):
-  # Initialize Player
-  Player.setName("Quill")
+  game = Game(screen)
 
-  # Initialize I/O
-  renderer = Renderer(screen)
-  inputProcessor = Input()
-  gameMatrix = Matrix(80, 24, 10)
-  renderer.clearScreen()
+  # Here we should parse launch options
+  game.initialize("Quill")
 
-  runGame = True
-
-  gameMatrix.updateLevel()
-  gameMatrix.positionPlayer()
-  renderer.render(gameMatrix)
-
-  while (runGame):
-    userInput = inputProcessor.getPlayerInput(screen)
-
-    if userInput != "q":
-      if userInput == "h":
-        Player.moveToLeft()
-      elif userInput == "k":
-        Player.moveToTop()
-      elif userInput == "j":
-        Player.moveToBottom()
-      elif userInput == "l":
-        Player.moveToRight()
-      elif userInput == "y":
-        Player.moveToTopLeft()
-      elif userInput == "u":
-        Player.moveToTopRight()
-      elif userInput == "n":
-        Player.moveToBottomLeft()
-      elif userInput == "m":
-        Player.moveToBottomRight()
-
-      gameMatrix.updateLevel()
-      gameMatrix.positionPlayer()
-      renderer.render(gameMatrix)
-    else:
-      runGame = False
-
-  # Some cleanup before exiting..
-  renderer.clearScreen()
+  # Run the game
+  game.loop()
 
 # Curses wrapper to main program (to handle screen)
 wrapper(main)
