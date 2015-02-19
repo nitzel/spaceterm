@@ -2,14 +2,15 @@
 from game.game import Game
 from curses import wrapper
 
+
 def main(screen):
-  game = Game(screen)
+    game = Game(screen)
 
-  # Here we should parse launch options
-  game.initialize("Quill")
+    # Here we should parse launch options
+    game.initialize("Quill")
 
-  # Run the game
-  game.loop()
+    # Run the game
+    game.loop()
 
 # Curses wrapper to main program (to handle screen)
 wrapper(main)
