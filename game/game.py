@@ -1,3 +1,4 @@
+import game.constants
 from entities.player import Player
 from game.renderer import Renderer
 from game.input import Input
@@ -24,7 +25,11 @@ class Game:
         # Initialize I/O
         self.renderer = Renderer(self.screen)
         self.inputProcessor = Input()
-        self.gameMatrix = Matrix(80, 24, 10)
+        self.gameMatrix = Matrix(
+            game.constants.MATRIX_W,
+            game.constants.MATRIX_H,
+            game.constants.MATRIX_Z
+        )
         self.renderer.clearScreen()
 
         # Bind keys to actions
@@ -35,12 +40,14 @@ class Game:
         self.inputProcessor.onKeys(['l', curses.KEY_RIGHT], Player.moveToRight)
         self.inputProcessor.onKeys(['y', curses.KEY_A1], Player.moveToTopLeft)
         self.inputProcessor.onKeys(['u', curses.KEY_A3], Player.moveToTopRight)
-        self.inputProcessor.onKeys(['b', curses.KEY_C1], Player.moveToBottomLeft)
-        self.inputProcessor.onKeys(['n', curses.KEY_C3], Player.moveToBottomRight)
+        self.inputProcessor.onKeys(['b', curses.KEY_C1],
+                                   Player.moveToBottomLeft)
+        self.inputProcessor.onKeys(['n', curses.KEY_C3],
+                                   Player.moveToBottomRight)
         self.inputProcessor.onKeys(['.', curses.KEY_B2], self.skipTurn)
 
-        # Initialize curses screen
-        self.screen.border(0, 0, 0, 0, 0, 0, 0, 0)
+        # Initialize status message
+        self.renderer.setStatusMsg('Welcome to SpaceTerm!')
 
     def loop(self):
         self.gameMatrix.updateLevel()
@@ -51,6 +58,7 @@ class Game:
             self.inputProcessor.getPlayerInput(self.screen)
             self.gameMatrix.updateLevel()
             self.gameMatrix.positionPlayer()
+            self.renderer.setStatusMsg(self.makeStatusText())
             self.renderer.render(self.gameMatrix)
 
     def quit(self):
@@ -63,3 +71,11 @@ class Game:
     def skipTurn(self):
         """Skips player turn"""
         pass
+
+    def makeStatusText(self):
+        """Builds the status text to display to the user"""
+        statusText = 'CMDR ' + Player.getName()
+        statusText = statusText + ' / '
+        statusText = statusText + '[%s,%s,%s]' % Player.getCoordinates().get()
+
+        return statusText

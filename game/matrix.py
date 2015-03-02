@@ -1,4 +1,5 @@
 from entities.player import Player
+from entities.space import Space
 
 
 class Matrix:
@@ -11,36 +12,43 @@ class Matrix:
         self.h = h
         self.z = z
         self.matrix = []
-        self.player = None
+        self.player = Player
         self.__initialize()
 
     def __initialize(self):
         """Initialize the matrix with empty space"""
-        self.matrix = []
+        self.matrix = [[[
+                Space(
+                    str(x) + str(y) + str(z),
+                    str(x) + str(y) + str(z),
+                    x, y, z
+                ) for z in range(self.z)
+            ] for x in range(self.w)
+            ] for y in range(self.h)
+            ]
 
-        for y in range(self.h):
-            self.matrix.append([])
-            for x in range(self.w):
-                self.matrix[y].append([])
-                for z in range(self.z):
-                    self.matrix[y][x].append([])
-                    self.matrix[y][x][z] = '.'
-
-    def render(self):
-        """Render the matrix"""
-        sbuffer = ''
-        for y in self.matrix:
-            for yx in y:
-                sbuffer = sbuffer + yx[Player.getCoordinates().getZ()]
-
-            sbuffer = sbuffer + '\n'
-
-        return sbuffer
+    def get(self):
+        return self.matrix
 
     def updateLevel(self):
         """Updates the current level in the matrix"""
         # Mockup, do actual level updating
-        self.__initialize()
+        # TODO This is really slow for some reason, so it should be optimized
+        for y in range(self.h):
+            for x in range(self.w):
+                for z in range(self.z):
+                    self.matrix[y][x][z] = Space(
+                        str(x) + str(y) + str(z),
+                        str(x) + str(y) + str(z),
+                        x, y, z
+                    )
 
     def positionPlayer(self):
-        self.matrix[Player.getCoordinates().getY()][Player.getCoordinates().getX()][Player.getCoordinates().getZ()] = '@'
+        # TODO Convert Player to a Base object and use __str__
+        self.matrix[
+                self.player.getCoordinates().getY()
+            ][
+                self.player.getCoordinates().getX()
+            ][
+                self.player.getCoordinates().getZ()
+            ] = self.player.symbol

@@ -1,16 +1,26 @@
 from game.coordinates import Coordinates
+import game.constants
 
 
 class Player:
 
-    """The player object manages the current player"""
+    """The player object manages the current player
+
+    TODO: this should really inherit from the Base object
+    """
 
     name = ''
+    symbol = '@'
+    # coordinates represents the player position in the universe
     coordinates = Coordinates(0, 0, 0)
 
     @staticmethod
     def setName(name):
         Player.name = name
+
+    @staticmethod
+    def getName():
+        return Player.name
 
     @staticmethod
     def getCoordinates():
@@ -24,36 +34,48 @@ class Player:
 
     @staticmethod
     def moveToTop():
-        Player.coordinates.addY(-1)
+        if Player.coordinates.getY() - 1 >= 0:
+            Player.coordinates.addY(-1)
 
     @staticmethod
     def moveToTopRight():
-        Player.coordinates.addY(-1)
-        Player.coordinates.addX(1)
+        if (Player.coordinates.getY() - 1 >= 0 and
+                Player.coordinates.getX() + 1 < game.constants.MATRIX_W):
+            Player.coordinates.addY(-1)
+            Player.coordinates.addX(1)
 
     @staticmethod
     def moveToRight():
-        Player.coordinates.addX(1)
+        if Player.coordinates.getX() + 1 < game.constants.MATRIX_W:
+            Player.coordinates.addX(1)
 
     @staticmethod
     def moveToBottomRight():
-        Player.coordinates.addY(1)
-        Player.coordinates.addX(1)
+        if (Player.coordinates.getY() + 1 < game.constants.MATRIX_H and
+                Player.coordinates.getX() + 1 < game.constants.MATRIX_W):
+            Player.coordinates.addY(1)
+            Player.coordinates.addX(1)
 
     @staticmethod
     def moveToBottom():
-        Player.coordinates.addY(1)
+        if Player.coordinates.getY() + 1 < game.constants.MATRIX_H:
+            Player.coordinates.addY(1)
 
     @staticmethod
     def moveToBottomLeft():
-        Player.coordinates.addY(1)
-        Player.coordinates.addX(-1)
+        if (Player.coordinates.getY() + 1 < game.constants.MATRIX_H and
+                Player.coordinates.getX() - 1 >= 0):
+            Player.coordinates.addY(1)
+            Player.coordinates.addX(-1)
 
     @staticmethod
     def moveToLeft():
-        Player.coordinates.addX(-1)
+        if Player.coordinates.getX() - 1 >= 0:
+            Player.coordinates.addX(-1)
 
     @staticmethod
     def moveToTopLeft():
-        Player.coordinates.addY(-1)
-        Player.coordinates.addX(-1)
+        if (Player.coordinates.getY() - 1 >= 0 and
+                Player.coordinates.getX() - 1 >= 0):
+            Player.coordinates.addY(-1)
+            Player.coordinates.addX(-1)
