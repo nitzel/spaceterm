@@ -19,5 +19,8 @@ class Base:
     def getName(self):
         return self.name
 
+    def getCoordinates(self):
+        return self.coordinates
+
     def __str__(self):
-    	return self.symbol
+        return self.symbol

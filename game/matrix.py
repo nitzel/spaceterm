@@ -6,13 +6,14 @@ class Matrix:
 
     """Matrix that holds all the game entities"""
 
-    def __init__(self, w, h, z):
+    def __init__(self, w, h, z, player):
         super(Matrix, self).__init__()
         self.w = w
         self.h = h
         self.z = z
         self.matrix = []
-        self.player = Player
+        self.player = player
+        self.objects = []
         self.__initialize()
 
     def __initialize(self):
@@ -30,25 +31,17 @@ class Matrix:
     def get(self):
         return self.matrix
 
+    def cells2d(self, z):
+        for y in range(self.h):
+            for x in range(self.w):
+                yield (x, y, z), self.matrix[y][x][z]
+
     def updateLevel(self):
         """Updates the current level in the matrix"""
         # Mockup, do actual level updating
-        # TODO This is really slow for some reason, so it should be optimized
-        for y in range(self.h):
-            for x in range(self.w):
-                for z in range(self.z):
-                    self.matrix[y][x][z] = Space(
-                        str(x) + str(y) + str(z),
-                        str(x) + str(y) + str(z),
-                        x, y, z
-                    )
-
-    def positionPlayer(self):
-        # TODO Convert Player to a Base object and use __str__
-        self.matrix[
-                self.player.getCoordinates().getY()
-            ][
-                self.player.getCoordinates().getX()
-            ][
-                self.player.getCoordinates().getZ()
-            ] = self.player.symbol
+        for coords, cell in self.cells2d(self.player.getCoordinates().getZ()):
+            cell = Space(
+                str(coords[0]) + str(coords[1]) + str(coords[2]),
+                str(coords[0]) + str(coords[1]) + str(coords[2]),
+                coords[0], coords[1], coords[2]
+            )

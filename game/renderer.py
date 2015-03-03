@@ -30,15 +30,22 @@ class Renderer:
         if not isinstance(matrix, Matrix):
             raise TypeError
 
-        m = matrix.get()
         self.clearScreen()
 
-        for y, rows in enumerate(m):
-            for x, layers in enumerate(rows):
-                self.galaxyView.addch(
-                    y, x,
-                    ord(str(layers[Player.getCoordinates().getZ()]))
-                )
+        for coords, cell in matrix.cells2d(
+            matrix.player.getCoordinates().getZ()
+        ):
+            obj = None
+
+            if matrix.player.getCoordinates().get() == coords:
+                obj = matrix.player
+            else:
+                obj = cell
+
+            self.galaxyView.addch(
+                coords[1], coords[0],
+                ord(str(obj))
+            )
 
         self.updater()
 
