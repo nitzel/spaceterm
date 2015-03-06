@@ -22,9 +22,6 @@ class Renderer:
         self.statusScreen = screen.subwin(self.screenH - 2, 0)
         self.statusMsg = ''
 
-        # Hide the cursor
-        curses.curs_set(0)
-
     def render(self, matrix):
         # Some type checking
         if not isinstance(matrix, Matrix):
