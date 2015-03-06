@@ -7,6 +7,8 @@ class Player(Base):
     """The player object manages the current player"""
 
     symbol = '@'
+    decoraton = game.constants.STYLE_STANDOUT
+    color = game.constants.COLOR_GK
 
     def getCoordinates(self):
         """Returns the coordinates object with player position"""

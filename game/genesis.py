@@ -26,7 +26,7 @@ class Genesis:
         Generate stars and append them to the specified sector
         """
         usedCoords = []
-        for i in range(random.randrange(MAX_STARS_IN_SYS)):
+        for i in range(random.randrange(1, MAX_STARS_IN_SYS)):
             while True:
                 x = random.randrange(SECTOR_W)
                 y = random.randrange(SECTOR_H)
@@ -40,6 +40,7 @@ class Genesis:
             uid = cl + str(x) + str(y) + str(z)
             name = uid
             star = Star(uid, name, x, y, z)
+            star.setClass(cl)
             sector.addObject(star)
 
     def getSectors(self):

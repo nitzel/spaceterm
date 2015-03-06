@@ -96,5 +96,7 @@ class Game:
         statusText = 'CMDR ' + self.player.getName()
         statusText += ' / '
         statusText += '[%s,%s,%s]' % self.player.getCoordinates().get()
+        statusText += '\n'
+        statusText += 'Fuel: [##########] 100%'
 
         return statusText
