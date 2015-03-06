@@ -3,6 +3,7 @@ from entities.player import Player
 from game.renderer import Renderer
 from game.input import Input
 from game.matrix import Matrix
+from game.genesis import Genesis
 import curses
 
 
@@ -52,7 +53,22 @@ class Game:
                                    self.player.moveToBottomLeft)
         self.inputProcessor.onKeys(['n', curses.KEY_C3],
                                    self.player.moveToBottomRight)
+        self.inputProcessor.onKeys(['>'],
+                                   self.player.moveDown)
+        self.inputProcessor.onKeys(['<'],
+                                   self.player.moveUp)
         self.inputProcessor.onKeys(['.', curses.KEY_B2], self.skipTurn)
+
+        # Initialize the universe!
+        genesis = Genesis(1)
+        genesis.generate()
+
+        # Get sector 0 as the one the players starts in
+        sector = genesis.getSector(0)
+        objects = sector.getObjects()
+
+        # Add its objects (stars, planets, etc) to the game matrix
+        self.gameMatrix.setObjects(objects)
 
         # Initialize status message
         self.renderer.setStatusMsg('Welcome to SpaceTerm!')

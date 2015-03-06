@@ -45,3 +45,13 @@ class Matrix:
                 str(coords[0]) + str(coords[1]) + str(coords[2]),
                 coords[0], coords[1], coords[2]
             )
+
+        for obj in self.objects:
+            coords = obj.getCoordinates().get()
+            self.matrix[coords[1]][coords[0]][coords[2]] = obj
+
+    def setObjects(self, objects):
+        self.objects = objects
+
+    def addObject(self, obj):
+        self.objects.append(obj)

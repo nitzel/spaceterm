@@ -55,3 +55,11 @@ class Player(Base):
                 self.coordinates.getX() - 1 >= 0):
             self.coordinates.addY(-1)
             self.coordinates.addX(-1)
+
+    def moveUp(self):
+        if self.coordinates.getZ() - 1 >= 0:
+            self.coordinates.addZ(-1)
+
+    def moveDown(self):
+        if self.coordinates.getZ() + 1 < game.constants.MATRIX_Z:
+            self.coordinates.addZ(1)
