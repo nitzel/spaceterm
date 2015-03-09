@@ -1,5 +1,6 @@
 import curses
 from game.matrix import Matrix
+from entities.player import Player
 import game.constants
 
 
@@ -49,17 +50,11 @@ class Renderer:
 
         self.clearScreen()
 
-        for coords, cell in matrix.cells2d(
+        for coords, obj in matrix.cells2d(
             matrix.player.getCoordinates().getZ()
         ):
-            obj = None
             style = curses.A_DIM
             colorPair = game.constants.COLOR_WK  # Default white on black
-
-            if matrix.player.getCoordinates().get() == coords:
-                obj = matrix.player
-            else:
-                obj = cell
 
             if obj.style == game.constants.STYLE_BOLD:
                 style = curses.A_BOLD

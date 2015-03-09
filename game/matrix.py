@@ -38,14 +38,18 @@ class Matrix:
 
     def updateLevel(self):
         """Updates the current level in the matrix"""
-        # Mockup, do actual level updating
+        # Fill matrix with Space
         for coords, cell in self.cells2d(self.player.getCoordinates().getZ()):
-            cell = Space(
+            self.matrix[coords[1]][coords[0]][coords[2]] = Space(
                 str(coords[0]) + str(coords[1]) + str(coords[2]),
                 str(coords[0]) + str(coords[1]) + str(coords[2]),
                 coords[0], coords[1], coords[2]
             )
 
+        # Position Player
+        self.positionPlayer()
+
+        # Position objects
         for obj in self.objects:
             coords = obj.getCoordinates().get()
             self.matrix[coords[1]][coords[0]][coords[2]] = obj
@@ -55,3 +59,12 @@ class Matrix:
 
     def addObject(self, obj):
         self.objects.append(obj)
+
+    def positionPlayer(self):
+        self.matrix[
+            self.player.getCoordinates().getY()
+        ][
+            self.player.getCoordinates().getX()
+        ][
+            self.player.getCoordinates().getZ()
+        ] = self.player
