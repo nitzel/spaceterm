@@ -67,7 +67,7 @@ class Game:
         sector = genesis.getSector(0)
         objects = sector.getObjects()
 
-        # Add its objects (stars, planets, etc) to the game matrix
+        # Add its objects (solar systems) to the game matrix
         self.gameMatrix.setObjects(objects)
 
         # Initialize status message
