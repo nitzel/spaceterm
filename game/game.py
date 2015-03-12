@@ -1,5 +1,6 @@
 import game.constants
 from entities.player import Player
+from entities.solarsystem import SolarSystem
 from game.renderer import Renderer
 from game.input import Input
 from game.matrix import Matrix
@@ -19,6 +20,11 @@ class Game:
         self.screen = screen
         self.runGame = True
         self.player = None
+        self.view = 0  # 0 = galaxy, 1 = sector, 2 = solar system
+        self.currentSector = None
+        self.currentSolarSystem = None
+        self.playerHasCollided = False
+        self.collisionObj = None
 
     def initialize(self, playerName):
         # Initialize Player
@@ -64,11 +70,10 @@ class Game:
         genesis.generate()
 
         # Get sector 0 as the one the players starts in
-        sector = genesis.getSector(0)
-        objects = sector.getObjects()
+        self.currentSector = genesis.getSector(0)
 
-        # Add its objects (solar systems) to the game matrix
-        self.gameMatrix.setObjects(objects)
+        # Start in sector view
+        self.switchToSectorView()
 
         # Initialize status message
         self.renderer.setStatusMsg('Welcome to SpaceTerm!')
@@ -79,6 +84,15 @@ class Game:
             self.renderer.setStatusMsg(self.makeStatusText())
             self.renderer.render(self.gameMatrix)
             self.inputProcessor.getPlayerInput(self.screen)
+            self.playerHasCollided, self.collisionObj = self.gameMatrix.checkCollision()
+
+            if self.playerHasCollided:
+                self.player.revertPosition()
+                self.collisionAction()
+
+    def collisionAction(self):
+        if isinstance(self.collisionObj, SolarSystem):
+            self.switchToSolarSystemView(self.collisionObj)
 
     def quit(self):
         """Quits the game"""
@@ -100,3 +114,33 @@ class Game:
         statusText += 'Fuel: [##########] 100%'
 
         return statusText
+
+    def __switchView(self, view):
+        """
+        Switch to the specified view.
+        This is a low level method and shouldn't be used directly.
+        Instead use switchToGalaxyView(), switchToSectorView() or
+        switchToSolarSystemView()
+        """
+        if (view not in [0, 1, 2]):
+            raise RuntimeError
+        self.view = view
+
+    def switchToGalaxyView(self):
+        self.__switchView(0)
+
+    def switchToSectorView(self):
+        self.__switchView(1)
+
+        objects = self.currentSector.getObjects()
+
+        # Add current sector objects (solar systems) to the game matrix
+        self.gameMatrix.setObjects(objects)
+
+    def switchToSolarSystemView(self, ss):
+        self.__switchView(2)
+
+        objects = ss.getObjects()
+
+        # Add current solar sytem objects (stars, planets..) to the game matrix
+        self.gameMatrix.setObjects(objects)

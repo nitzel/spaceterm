@@ -9,3 +9,4 @@ class Planet(Base):
     symbol = 'o'
     decoration = game.constants.STYLE_BOLD
     color = game.constants.COLOR_BK  # TODO Change based on planet class
+    isCollider = True

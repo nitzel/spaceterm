@@ -1,4 +1,5 @@
 import random
+import math
 from game.constants import *
 from entities.sector import Sector
 from entities.star import Star
@@ -58,7 +59,7 @@ class Genesis:
         cl = random.choice(STAR_CLASSES)
         uid = cl + uidPrefix
         name = uid
-        star = Star(uid, name, SS_W / 2, SS_H / 2, 0)
+        star = Star(uid, name, math.floor(SS_W / 2), math.floor(SS_H / 2), 0)
         star.setClass(cl)
 
         return star

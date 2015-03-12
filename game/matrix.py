@@ -46,13 +46,13 @@ class Matrix:
                 coords[0], coords[1], coords[2]
             )
 
-        # Position Player
-        self.positionPlayer()
-
         # Position objects
         for obj in self.objects:
             coords = obj.getCoordinates().get()
             self.matrix[coords[1]][coords[0]][coords[2]] = obj
+
+        # Position Player
+        self.positionPlayer()
 
     def setObjects(self, objects):
         self.objects = objects
@@ -68,3 +68,14 @@ class Matrix:
         ][
             self.player.getCoordinates().getZ()
         ] = self.player
+
+    def checkCollision(self):
+        """
+        Check if player is going to collide with something
+        when moving to destination coordinates
+        """
+        coords = self.player.getCoordinates()
+        obj = self.matrix[coords.getY()][coords.getX()][coords.getZ()]
+
+        # If the object found is a collider, then there's a collision!
+        return obj.isCollider, obj

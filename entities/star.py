@@ -9,6 +9,7 @@ class Star(Base):
     symbol = 'O'
     decoration = game.constants.STYLE_BOLD
     color = game.constants.COLOR_WK
+    isCollider = True
 
     def setClass(self, cl):
         """

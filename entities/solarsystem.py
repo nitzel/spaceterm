@@ -14,6 +14,7 @@ class SolarSystem(Base):
     symbol = 'S'  # This is shown on sector view
     decoration = game.constants.STYLE_BOLD
     color = game.constants.COLOR_WK
+    isCollider = True
 
     def __init__(self, uid, name, x=0, y=0, z=0):
         super(SolarSystem, self).__init__(uid, name, x, y, z)
@@ -41,3 +42,15 @@ class SolarSystem(Base):
 
     def addPlanet(self, planet):
         self.planets.append(planet)
+
+    def getObjects(self):
+        """Return a merged array of system objects"""
+        objects = []
+        objects.append(self.star)
+
+        # TODO support for binary systems
+        #if self.star2:
+        #    objects.append(self.star2)
+
+        objects.extend(self.planets)
+        return objects

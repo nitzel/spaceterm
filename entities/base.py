@@ -9,6 +9,7 @@ class Base:
     symbol = None
     style = game.constants.STYLE_NORMAL
     color = game.constants.COLOR_WK
+    isCollider = False  # True if object generates a collision with player
 
     def __init__(self, uid, name, x=0, y=0, z=0):
         super(Base, self).__init__()
