@@ -48,9 +48,5 @@ class SolarSystem(Base):
         objects = []
         objects.append(self.star)
 
-        # TODO support for binary systems
-        #if self.star2:
-        #    objects.append(self.star2)
-
         objects.extend(self.planets)
         return objects

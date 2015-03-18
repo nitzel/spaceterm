@@ -1,6 +1,5 @@
 import curses
 from game.matrix import Matrix
-from entities.player import Player
 import game.constants
 
 

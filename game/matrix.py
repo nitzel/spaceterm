@@ -55,6 +55,7 @@ class Matrix:
         self.positionPlayer()
 
     def setObjects(self, objects):
+        # TODO warning, altering this list would alter the original one!
         self.objects = objects
 
     def addObject(self, obj):

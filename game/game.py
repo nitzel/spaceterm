@@ -5,7 +5,9 @@ from game.renderer import Renderer
 from game.input import Input
 from game.matrix import Matrix
 from game.genesis import Genesis
+from game.coordinates import Coordinates
 import curses
+import math
 
 
 class Game:
@@ -25,6 +27,8 @@ class Game:
         self.currentSolarSystem = None
         self.playerHasCollided = False
         self.collisionObj = None
+        # Tuple holding difference between player coords and prevCoords
+        self.playerDirection = (0, 0, 0)
 
     def initialize(self, playerName):
         # Initialize Player
@@ -84,11 +88,18 @@ class Game:
             self.renderer.setStatusMsg(self.makeStatusText())
             self.renderer.render(self.gameMatrix)
             self.inputProcessor.getPlayerInput(self.screen)
-            self.playerHasCollided, self.collisionObj = self.gameMatrix.checkCollision()
+            self.playerHasCollided, self.collisionObj = \
+                self.gameMatrix.checkCollision()
+            self.playerDirection = self.player.getDirection()
 
             if self.playerHasCollided:
                 self.player.revertPosition()
                 self.collisionAction()
+
+            if self.player.hasCollidedWithWalls():
+                # If player is in solar system, switch to sector
+                if self.view == 2:
+                    self.switchToSectorView()
 
     def collisionAction(self):
         if isinstance(self.collisionObj, SolarSystem):
@@ -113,6 +124,10 @@ class Game:
         statusText += '\n'
         statusText += 'Fuel: [##########] 100%'
 
+        if self.playerDirection:
+            statusText += ' / '
+            statusText += 'Direction: ' + str(self.playerDirection)
+
         return statusText
 
     def __switchView(self, view):
@@ -132,15 +147,68 @@ class Game:
     def switchToSectorView(self):
         self.__switchView(1)
 
+        # If player was in solar system, we move him to ss coords
+        # modified based on exit point.
+        if self.currentSolarSystem:
+            wall = self.player.getCollidedWall()
+            self.player.moveTo(self.currentSolarSystem.getCoordinates())
+
+            if wall == 'n':
+                self.player.moveToTop()
+            elif wall == 'ne':
+                self.player.moveToTopRight()
+            elif wall == 'e':
+                self.player.moveToRight()
+            elif wall == 'se':
+                self.player.moveToBottomRight()
+            elif wall == 's':
+                self.player.moveToBottom()
+            elif wall == 'sw':
+                self.player.moveToBottomLeft()
+            elif wall == 'w':
+                self.player.moveToLeft()
+            elif wall == 'nw':
+                self.player.moveToTopLeft()
+
         objects = self.currentSector.getObjects()
 
         # Add current sector objects (solar systems) to the game matrix
         self.gameMatrix.setObjects(objects)
+        self.currentSolarSystem = None
 
     def switchToSolarSystemView(self, ss):
         self.__switchView(2)
 
         objects = ss.getObjects()
 
+        # Check where player has collided with solar system to set initial pos
+        newCoords = Coordinates(0, 0, 0)
+        if self.playerDirection[0] == 1:  # Collided west
+            if self.playerDirection[1] == 1:  # Collided north west
+                newCoords.set(0, 0, 0)
+            elif self.playerDirection[1] == -1:  # Collided south west
+                newCoords.set(0, game.constants.SS_H - 1, 0)
+            else:  # Collided west
+                newCoords.set(0, math.floor((game.constants.SS_H - 1) / 2), 0)
+        elif self.playerDirection[0] == -1:
+            if self.playerDirection[1] == 1:  # Collided north east
+                newCoords.set(game.constants.SS_W - 1, 0, 0)
+            elif self.playerDirection[1] == -1:  # Collided south east
+                newCoords.set(game.constants.SS_W - 1,
+                              game.constants.SS_H - 1, 0)
+            else:  # Collided east
+                newCoords.set(game.constants.SS_W - 1,
+                              math.floor((game.constants.SS_H - 1) / 2), 0)
+        elif self.playerDirection[1] == 1:  # Collided north
+            newCoords.set(math.floor((game.constants.SS_W - 1) / 2), 0, 0)
+        elif self.playerDirection[1] == -1:  # Collided south
+            newCoords.set(math.floor((game.constants.SS_W - 1) / 2),
+                          game.constants.SS_H - 1, 0)
+        else:  # Collided top or bottom (TODO)
+            newCoords.set(10, 10, 10)  # Temporary just to spot the case
+
+        self.player.moveTo(newCoords)
+
         # Add current solar sytem objects (stars, planets..) to the game matrix
         self.gameMatrix.setObjects(objects)
+        self.currentSolarSystem = ss
