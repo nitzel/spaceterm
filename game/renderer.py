@@ -1,4 +1,4 @@
-import curses
+from libs import unicurses
 from game.matrix import Matrix
 import game.constants
 
@@ -10,7 +10,7 @@ class Renderer:
     def __init__(self, screen):
         # This is the root screen which holds all the subwindows
         # it doesn't actually hold any content, it's just here
-        # because of curses.wrapper()
+        # because of unicurses.wrapper()
         self.screen = screen
         screenSize = screen.getmaxyx()
         self.screenH = screenSize[0]
@@ -27,20 +27,20 @@ class Renderer:
         self.statusScreen = self.mainScreen.subwin(self.screenH - 2, 1)
         self.statusMsg = ''
 
-        curses.init_pair(
-            1, curses.COLOR_RED, curses.COLOR_BLACK)
-        curses.init_pair(
-            2, curses.COLOR_GREEN, curses.COLOR_BLACK)
-        curses.init_pair(
-            3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-        curses.init_pair(
-            4, curses.COLOR_BLUE, curses.COLOR_BLACK)
-        curses.init_pair(
-            5, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
-        curses.init_pair(
-            6, curses.COLOR_CYAN, curses.COLOR_BLACK)
-        curses.init_pair(
-            7, curses.COLOR_BLACK, curses.COLOR_WHITE)
+        unicurses.init_pair(
+            1, unicurses.COLOR_RED, unicurses.COLOR_BLACK)
+        unicurses.init_pair(
+            2, unicurses.COLOR_GREEN, unicurses.COLOR_BLACK)
+        unicurses.init_pair(
+            3, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK)
+        unicurses.init_pair(
+            4, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK)
+        unicurses.init_pair(
+            5, unicurses.COLOR_MAGENTA, unicurses.COLOR_BLACK)
+        unicurses.init_pair(
+            6, unicurses.COLOR_CYAN, unicurses.COLOR_BLACK)
+        unicurses.init_pair(
+            7, unicurses.COLOR_BLACK, unicurses.COLOR_WHITE)
 
     def render(self, matrix):
         # Some type checking
@@ -52,19 +52,19 @@ class Renderer:
         for coords, obj in matrix.cells2d(
             matrix.player.getCoordinates().getZ()
         ):
-            style = curses.A_DIM
+            style = unicurses.A_DIM
             colorPair = game.constants.COLOR_WK  # Default white on black
 
             if obj.style == game.constants.STYLE_BOLD:
-                style = curses.A_BOLD
+                style = unicurses.A_BOLD
             elif obj.style == game.constants.STYLE_DIM:
-                style = curses.A_DIM
+                style = unicurses.A_DIM
             elif obj.style == game.constants.STYLE_STANDOUT:
-                style = curses.A_STANDOUT
+                style = unicurses.A_STANDOUT
             elif obj.style == game.constants.STYLE_REVERSE:
-                style = curses.A_REVERSE
+                style = unicurses.A_REVERSE
             elif obj.style == game.constants.STYLE_BLINK:
-                style = curses.A_BLINK
+                style = unicurses.A_BLINK
 
             colorPair = obj.color
 
@@ -72,7 +72,7 @@ class Renderer:
                 self.galaxyView.addch(
                     coords[1] + 1, coords[0] + 1,
                     ord(str(obj)),
-                    style | curses.color_pair(colorPair)
+                    style | unicurses.color_pair(colorPair)
                 )
             except:
                 self.statusMsg += ' OB' + str(coords[1]) + ':' + str(coords[0])
