@@ -19,7 +19,7 @@ def main(screen):
 def cleanupCurses(screen):
     unicurses.nocbreak()
     unicurses.echo()
-    screen.keypad(False)
+    unicurses.keypad(screen, False)
     unicurses.endwin()
 
 
@@ -28,11 +28,11 @@ def wrapper(func):
     unicurses.start_color()
     unicurses.noecho()
     unicurses.cbreak()
-    screen.keypad(True)
+    unicurses.keypad(screen, True)
 
     try:
         func(screen)
-    except:
+    finally:
         cleanupCurses(screen)
 
 

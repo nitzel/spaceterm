@@ -12,19 +12,19 @@ class Renderer:
         # it doesn't actually hold any content, it's just here
         # because of unicurses.wrapper()
         self.screen = screen
-        screenSize = screen.getmaxyx()
+        screenSize = unicurses.getmaxyx(screen)
         self.screenH = screenSize[0]
         self.screenW = screenSize[1]
 
         # This is the main window that will hold all the game views
-        self.mainScreen = screen.subwin(self.screenH, self.screenW, 0, 0)
+        self.mainScreen = unicurses.subwin(screen, self.screenH, self.screenW, 0, 0)
         # In galaxyView draw the galaxy map
-        self.galaxyView = self.mainScreen.subwin(
+        self.galaxyView = unicurses.subwin(self.mainScreen,
             game.constants.MATRIX_H + 2, game.constants.MATRIX_W + 2, 0, 0)
 
         # In statusScreen draw the status text.
         # It sits on the bottom of the main window
-        self.statusScreen = self.mainScreen.subwin(self.screenH - 2, 1)
+        self.statusScreen = unicurses.subwin(self.mainScreen, self.screenH - 2, 1, 0, 0); # 0,0 as beginXY correct?
         self.statusMsg = ''
 
         unicurses.init_pair(
@@ -81,15 +81,17 @@ class Renderer:
 
     def updater(self):
         """Updates the buffer with current game status"""
-        self.statusScreen.addstr(self.statusMsg)
-        self.galaxyView.border('|', '|', '-', '-', '+', '+', '+', '+')
-        self.mainScreen.refresh()
-        self.galaxyView.refresh()
-        self.statusScreen.refresh()
+        unicurses.waddstr(self.statusScreen, self.statusMsg)
+        unicurses.border2(self.galaxyView, '|', '|', '-', '-', '+', '+', '+', '+')
+        unicurses.refresh()
+        #self.mainScreen.refresh()
+        #self.galaxyView.refresh()
+        #self.statusScreen.refresh()
 
     def clearScreen(self):
-        self.galaxyView.erase()
-        self.statusScreen.erase()
+        # maybe unicurses.erase() instead?
+        unicurses.wclear(self.galaxyView)
+        unicurses.wclear(self.statusScreen)
 
     def setStatusMsg(self, msg):
         """Set the status message to be shown on the bottom"""

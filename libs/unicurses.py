@@ -2247,6 +2247,7 @@ def mvinsnstr(y, x, str, n, attr="NO_USE"): return mvwinsnstr(stdscr, y, x, str,
 def insnstr(str, n, attr="NO_USE"): return winsnstr(stdscr, str, n, attr)
 def insch(ch, attr=A_NORMAL): return winsch(stdscr, ch, attr)
 def refresh(): return wrefresh(stdscr)
+def border2(scrid, ls=ACS_VLINE, rs=ACS_VLINE, ts=ACS_HLINE, bs=ACS_HLINE, tl=ACS_ULCORNER, tr=ACS_URCORNER, bl=ACS_LLCORNER, br=ACS_LRCORNER): return wborder(scrid, ls, rs, ts, bs, tl, tr, bl, br)
 def border(ls=ACS_VLINE, rs=ACS_VLINE, ts=ACS_HLINE, bs=ACS_HLINE, tl=ACS_ULCORNER, tr=ACS_URCORNER, bl=ACS_LLCORNER, br=ACS_LRCORNER): return wborder(stdscr, ls, rs, ts, bs, tl, tr, bl, br)
 def bkgd(ch, attr=A_NORMAL): return wbkgd(stdscr, ch, attr)
 def bkgdset(ch, attr=A_NORMAL): return wbkgdset(stdscr, ch, attr)
