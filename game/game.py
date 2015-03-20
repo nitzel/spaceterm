@@ -6,7 +6,7 @@ from game.input import Input
 from game.matrix import Matrix
 from game.genesis import Genesis
 from game.coordinates import Coordinates
-import curses
+from libs import unicurses
 import math
 
 
@@ -47,27 +47,27 @@ class Game:
 
         # Bind keys to actions
         self.inputProcessor.onKey('q', self.quit)
-        self.inputProcessor.onKeys(['h', curses.KEY_LEFT],
+        self.inputProcessor.onKeys(['h', unicurses.KEY_LEFT],
                                    self.player.moveToLeft)
-        self.inputProcessor.onKeys(['k', curses.KEY_UP],
+        self.inputProcessor.onKeys(['k', unicurses.KEY_UP],
                                    self.player.moveToTop)
-        self.inputProcessor.onKeys(['j', curses.KEY_DOWN],
+        self.inputProcessor.onKeys(['j', unicurses.KEY_DOWN],
                                    self.player.moveToBottom)
-        self.inputProcessor.onKeys(['l', curses.KEY_RIGHT],
+        self.inputProcessor.onKeys(['l', unicurses.KEY_RIGHT],
                                    self.player.moveToRight)
-        self.inputProcessor.onKeys(['y', curses.KEY_A1],
+        self.inputProcessor.onKeys(['y', unicurses.KEY_A1],
                                    self.player.moveToTopLeft)
-        self.inputProcessor.onKeys(['u', curses.KEY_A3],
+        self.inputProcessor.onKeys(['u', unicurses.KEY_A3],
                                    self.player.moveToTopRight)
-        self.inputProcessor.onKeys(['b', curses.KEY_C1],
+        self.inputProcessor.onKeys(['b', unicurses.KEY_C1],
                                    self.player.moveToBottomLeft)
-        self.inputProcessor.onKeys(['n', curses.KEY_C3],
+        self.inputProcessor.onKeys(['n', unicurses.KEY_C3],
                                    self.player.moveToBottomRight)
         self.inputProcessor.onKeys(['>'],
                                    self.player.moveDown)
         self.inputProcessor.onKeys(['<'],
                                    self.player.moveUp)
-        self.inputProcessor.onKeys(['.', curses.KEY_B2], self.skipTurn)
+        self.inputProcessor.onKeys(['.', unicurses.KEY_B2], self.skipTurn)
 
         # Initialize the universe!
         genesis = Genesis(1)

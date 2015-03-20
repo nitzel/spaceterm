@@ -1,3 +1,4 @@
+from libs import unicurses
 class Input:
 
     """Manages player input"""
@@ -8,7 +9,7 @@ class Input:
 
     def getPlayerInput(self, screen):
         """Standardized method to get player input"""
-        ch = screen.get_wch()
+        ch = unicurses.wgetch(screen)
         self.runCallbacks(ch)
         return ch
 
