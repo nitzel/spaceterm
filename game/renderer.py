@@ -12,9 +12,7 @@ class Renderer:
         # it doesn't actually hold any content, it's just here
         # because of unicurses.wrapper()
         self.screen = screen
-        screenSize = unicurses.getmaxyx(screen)
-        self.screenH = screenSize[0]
-        self.screenW = screenSize[1]
+        self.screenH, self.screenW = unicurses.getmaxyx(screen)
 
         # This is the main window that will hold all the game views
         self.mainScreen = unicurses.subwin(screen, self.screenH, self.screenW, 0, 0)
@@ -69,7 +67,7 @@ class Renderer:
             colorPair = obj.color
 
             try:
-                self.galaxyView.addch(
+                unicurses.waddch(self.galaxyView,
                     coords[1] + 1, coords[0] + 1,
                     ord(str(obj)),
                     style | unicurses.color_pair(colorPair)
@@ -82,12 +80,10 @@ class Renderer:
     def updater(self):
         """Updates the buffer with current game status"""
         unicurses.waddstr(self.statusScreen, self.statusMsg)
-        unicurses.border2(self.galaxyView, '|', '|', '-', '-', '+', '+', '+', '+')
-        unicurses.refresh()
-        #self.mainScreen.refresh()
-        #self.galaxyView.refresh()
-        #self.statusScreen.refresh()
-
+        unicurses.wborder(self.galaxyView, '|', '|', '-', '-', '+', '+', '+', '+')
+        unicurses.wrefresh(self.mainScreen)
+        unicurses.wrefresh(self.galaxyView)
+        unicurses.wrefresh(self.statusScreen)
     def clearScreen(self):
         # maybe unicurses.erase() instead?
         unicurses.wclear(self.galaxyView)
